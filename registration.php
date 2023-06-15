@@ -1,5 +1,6 @@
 <?php 
 require_once('config.php');
+session_start();
 // $id = $_REQUEST['id'];
 
 if(isset($_POST['registration'])){
@@ -44,6 +45,15 @@ if(isset($_POST['registration'])){
         $result = $statement->execute(array($name,$username,$email,$password,$email_code,$date_of_birth,$address,"Pending",$created_at));
         if($result == true){
             $success = "Your Registration Successfully!";
+
+            //Send email verification
+            $message = "Your verification code is: ".$email_code;
+            mail($email,"Email Verification",$message);
+
+            $_SESSION['user_email'] = $userData['email'];
+
+            header('location:verification.php');
+
         }
         else{
             $error = "Registration Failed!";
@@ -53,40 +63,54 @@ if(isset($_POST['registration'])){
 
 ?>
 
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href="admin/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="admin/assets/libs/css/style.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="admin/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Registration</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="admin/css/font-face.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="admin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="admin/css/theme.css" rel="stylesheet" media="all">
 
 </head>
-<!-- ============================================================== -->
-<!-- signup form  -->
-<!-- ============================================================== -->
 
-<body>
-    <!-- ============================================================== -->
-    <!-- signup form  -->
-    <!-- ============================================================== -->
-    <div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="mb-1">Registrations Form</h3>
-                    <p>Please enter your user information.</p>
-                </div>
-                <div class="card-body">
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="login-wrap">
+                <div class="login-content">
+                    <div class="login-logo">
+                        <a href="#"><img src="img/logo.png" alt="Ogani Master"></a>
+                    </div>
+                    <h2 class="text-center text-success">Registration</h2>
+                    <hr>
                     <?php if(isset($error)) : ?>
                     <div class="alert alert-danger">
                         <?php echo $error; ?>
@@ -97,51 +121,76 @@ if(isset($_POST['registration'])){
                         <?php echo $success; ?>
                     </div>
                     <?php endif; ?>
-
-                    <form action="" method="POST" >
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="name">Name :</label>
-                            <input class="form-control" type="text" id="name" name="name" placeholder="name">
+                    <div class="login-form">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="name">Name :</label>
+                                <input class="form-control" type="text" id="name" name="name" placeholder="name">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="username">User Name :</label>
+                                <input class="form-control" type="text" id="username" name="username" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="email">Email :</label>
+                                <input class="form-control" type="email" id="email" name="email" placeholder="e-mail">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="password">Password :</label>
+                                <input class="form-control" id="password" name="password" type="password" placeholder="password">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="birth">Date Of Birth :</label>
+                                <input class="form-control" id="birth" name="date_of_birth" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: 600;color:black;" for="address">Address :</label>
+                                <textarea name="address" id="address" class="form-control" ></textarea>
+                            </div>
+                            <div class="login-checkbox">
+                                <label>
+                                    <input type="checkbox" name="aggree">Agree the terms and policy
+                                </label>
+                            </div>
+                            <button class="au-btn au-btn--block au-btn--green m-b-20" name="registration" type="submit">Registration</button>
+                        </form>
+                        <div class="register-link">
+                            <p>
+                                Already have account?
+                                <a href="logout.php">Sign In</a>
+                            </p>
                         </div>
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="username">User Name :</label>
-                            <input class="form-control" type="text" id="username" name="username" placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="email">Email :</label>
-                            <input class="form-control" type="email" id="email" name="email" placeholder="e-mail">
-                        </div>
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="password">Password :</label>
-                            <input class="form-control" id="password" name="password" type="password" placeholder="password">
-                        </div>
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="birth">Date Of Birth :</label>
-                            <input class="form-control" id="birth" name="date_of_birth" type="date">
-                        </div>
-                        <div class="form-group">
-                            <label style="font-weight: 600;color:black;" for="address">Address :</label>
-                            <textarea name="address" id="address" class="form-control" ></textarea>
-                        </div>
-                        <div class="form-group pt-2 text-center">
-                            <button class="btn btn-primary" name="registration" style="border-radius: 5px;" type="submit">Register My Account</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label">By creating an account, you agree the <a href="#">terms and conditions</a></span>
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer bg-white">
-                    <p>Already member? <a href="login.php" class="text-secondary">Login Here.</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+    <!-- Jquery JS-->
+    <script src="admin/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="admin/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="admin/vendor/slick/slick.min.js">
+    </script>
+    <script src="admin/vendor/wow/wow.min.js"></script>
+    <script src="admin/vendor/animsition/animsition.min.js"></script>
+    <script src="admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="admin/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="admin/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="admin/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="admin/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="admin/vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="admin/js/main.js"></script>
+
 </body>
 
- 
 </html>
+<!-- end document-->

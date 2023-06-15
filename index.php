@@ -1,6 +1,11 @@
 <?php 
 
 require_once('includes/header.php');
+require_once('config.php');
+
+// $stm = $connection->prepare("SELECT * FROM 'categories");
+// $stm->execute(array());
+// $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -70,31 +75,19 @@ require_once('includes/header.php');
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
+                    <?php 
+                        $products = getAllTableData('products');
+                        foreach($products as $product) :
+                    ?>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-                            <h5><a href="shop-details.php">Fresh Fruit</a></h5>
+                        <div class="categories__item set-bg">
+                            <img src="admin/products/product-photo/<?php echo $product['photo'] ?>">
+                            <h5><a href="shop-details.php?id=<?php echo $product['id']; ?>"><?php echo $product['product_name'] ?></a></h5>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                            <h5><a href="shop-details.php">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                            <h5><a href="shop-details.php">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                            <h5><a href="shop-details.php">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                            <h5><a href="shop-details.php">drink fruits</a></h5>
-                        </div>
-                    </div>
+                    <?php 
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </div>

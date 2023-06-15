@@ -1,6 +1,9 @@
 <?php 
 
 require_once('includes/header.php');
+require_once('config.php');
+
+$id = $_REQUEST['id'];
 
 ?>
 
@@ -83,8 +86,7 @@ require_once('includes/header.php');
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-                        <img class="product__details__pic__item--large"
-                            src="img/product/details/product-details-1.jpg" alt="">
+                        <img class="product__details__pic__item--large" src="admin/products/product-photo/<?php echo getColumnDetails('products','photo',$id)?>" alt="">
                     </div>
                     <div class="product__details__pic__slider owl-carousel">
                         <img data-imgbigurl="img/product/details/product-details-2.jpg"
@@ -100,7 +102,7 @@ require_once('includes/header.php');
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
-                    <h3>Vetgetable’s Package</h3>
+                    <h3><?php echo getColumnDetails('products','product_name',$id);?>’s Package</h3>
                     <div class="product__details__rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -120,7 +122,7 @@ require_once('includes/header.php');
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="primary-btn">ADD TO CARD</a>
+                    <a href="shoping-cart.php" class="primary-btn">ADD TO CARD</a>
                     <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>

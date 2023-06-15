@@ -2,7 +2,6 @@
 <?php 
 require_once('config.php');
 session_start();
-// $id = $_REQUEST['id'];
 
 if(isset($_POST['login_form'])){
     $username = $_POST['username'];
@@ -28,7 +27,9 @@ if(isset($_POST['login_form'])){
                 header('location:index.php');
             }
             else{
-                header('location:varification.php');
+                $_SESSION['user_email'] = $userData['email'];
+
+                header('location:verification.php');
             }
 
         }
@@ -44,89 +45,126 @@ if(isset($_SESSION['user'])){
 
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href=admin./assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="admin/assets/libs/css/style.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="admin/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-    <style>
-    html,
-    body {
-        height: 100%;
-    }
 
-    body {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    .footer-link-style .footer-link:hover,
-    .footer-link-style .footer-link:focus{
-        color: blue;
-    }
-    </style>
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Login</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="admin/css/font-face.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="admin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="admin/css/theme.css" rel="stylesheet" media="all">
+
 </head>
 
-<body>
-    <!-- ============================================================== -->
-    <!-- login page  -->
-    <!-- ============================================================== -->
-    <div class="splash-container">
-        <div class="card ">
-            <div class="card-header text-center">
-                <a href="./index.php"><img style="width: 100px;" src="img/logo.png" alt=""></a>
-                <span class="splash-description">Please enter your user information.</span></div>
-            <div class="card-body">
-                <?php if(isset($error)) : ?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?>
-                </div>
-                <?php endif; ?>
-                <?php if(isset($success)) : ?>
-                <div class="alert alert-success">
-                    <?php echo $success; ?>
-                </div>
-                <?php endif; ?>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="Username">
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="login.php">
+                                <img src="img/logo.png" alt="ogani-master">
+                            </a>
+                            <br>
+                            <br>
+                            <h2 class="text-center text-success">Login</h2>
+                        </div>
+                        <?php if(isset($error)) : ?>
+                        <div class="alert alert-danger">
+                            <?php echo $error; ?>
+                        </div>
+                        <?php endif; ?>
+                        <?php if(isset($success)) : ?>
+                        <div class="alert alert-success">
+                            <?php echo $success; ?>
+                        </div>
+                        <?php endif; ?>
+                        <div class="login-form">
+                            <form action="" method="POST">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input class="au-input au-input--full" type="text" name="username" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                </div>
+                                <div class="login-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember">Remember Me
+                                    </label>
+                                    <label>
+                                        <a href="#">Forgotten Password?</a>
+                                    </label>
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" name="login_form" type="submit">Login</button>
+                            </form>
+                            <div class="register-link">
+                                <p>
+                                    Don't you have account?
+                                    <a href="registration.php">Sign Up Here</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="Password">
-                    </div>
-
-                    <button type="submit" name="login_form" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                </form>
-            </div>
-            <div class="card-footer footer-link-style bg-white p-0  ">
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="registration.php" class="footer-link">Create An Account</a></div>
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>
+
     </div>
-  
-    <!-- ============================================================== -->
-    <!-- end login page  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <script src="admin/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <script src="admin/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
+    <!-- Jquery JS-->
+    <script src="admin/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="admin/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="admin/vendor/slick/slick.min.js">
+    </script>
+    <script src="admin/vendor/wow/wow.min.js"></script>
+    <script src="admin/vendor/animsition/animsition.min.js"></script>
+    <script src="admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="admin/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="admin/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="admin/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="admin/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="admin/vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="admin/js/main.js"></script>
+
 </body>
- 
+
 </html>
+<!-- end document-->

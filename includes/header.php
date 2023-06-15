@@ -1,3 +1,14 @@
+
+<?php 
+
+// session_start();
+// if(!isset($_SESSION['user'])){
+//     header('location:login.php');
+// }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -119,7 +130,7 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="login.php"><i class="fa fa-user"></i> Login</a>
+                                <a href="logout.php"><i class="fa fa-user"></i> Login</a>
                             </div>
                         </div>
                     </div>
@@ -155,7 +166,7 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="shoping-cart.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                         </ul>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
                     </div>

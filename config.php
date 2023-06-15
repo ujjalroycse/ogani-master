@@ -15,6 +15,20 @@ catch(PDOException $e){
 
 require_once('function.php');
 
+function get_header(){
+    require_once('../includes/header.php');
+}
+function get_footer(){
+    require_once('../includes/footer.php');
+}
+
+function echo_admin_url(){
+    echo "http://localhost/ogani-master/admin";
+}
+function return_admin_url(){
+    return "http://localhost/ogani-master/admin";
+}
+
 
 
 ?>
